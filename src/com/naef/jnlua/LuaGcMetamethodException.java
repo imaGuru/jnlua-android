@@ -5,40 +5,30 @@
 
 package com.naef.jnlua;
 
-/**
- * Indicates a Lua garbage collection metamethod error.
+/** Indicates a Lua garbage collection metamethod error.
  * 
  * <p>
- * This exception is thrown if an error occurs running a <code>__gc</code>
- * metamethod during garbage collection.
+ * This exception is thrown if an error occurs running a <code>__gc</code> metamethod during garbage collection.
  * </p>
  * 
- * @since JNLua 1.0.0
- */
+ * @since JNLua 1.0.0 */
 public class LuaGcMetamethodException extends LuaException {
 	// -- Static
 	private static final long serialVersionUID = 1L;
 
 	// -- Construction
-	/**
-	 * Creates a new instance.
+	/** Creates a new instance.
 	 * 
-	 * @param msg
-	 *            the message
-	 */
-	public LuaGcMetamethodException(String msg) {
+	 * @param msg the message */
+	public LuaGcMetamethodException (String msg) {
 		super(msg);
 	}
 
-	/**
-	 * Creates a new instance.
+	/** Creates a new instance.
 	 * 
-	 * @param msg
-	 *            the message
-	 * @param cause
-	 *            the cause of this exception
-	 */
-	public LuaGcMetamethodException(String msg, Throwable cause) {
+	 * @param msg the message
+	 * @param cause the cause of this exception */
+	public LuaGcMetamethodException (String msg, Throwable cause) {
 		super(msg, cause);
 	}
 }

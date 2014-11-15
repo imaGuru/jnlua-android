@@ -15,26 +15,17 @@ import java.util.Map;
 import com.naef.jnlua.util.AbstractTableList;
 import com.naef.jnlua.util.AbstractTableMap;
 
-/**
- * Default implementation of the <code>Converter</code> interface.
- */
+/** Default implementation of the <code>Converter</code> interface. */
 public class DefaultConverter implements Converter {
 	// -- Static
-	/**
-	 * Raw byte array.
-	 */
-	private static final boolean RAW_BYTE_ARRAY = Boolean.parseBoolean(System
-			.getProperty(DefaultConverter.class.getPackage().getName()
-					+ ".rawByteArray"));
+	/** Raw byte array. */
+	private static final boolean RAW_BYTE_ARRAY = Boolean.parseBoolean(System.getProperty(DefaultConverter.class.getPackage()
+		.getName() + ".rawByteArray"));
 
-	/**
-	 * Static instance.
-	 */
+	/** Static instance. */
 	private static final DefaultConverter INSTANCE = new DefaultConverter();
 
-	/**
-	 * Boolean distance map.
-	 */
+	/** Boolean distance map. */
 	private static final Map<Class<?>, Integer> BOOLEAN_DISTANCE_MAP = new HashMap<Class<?>, Integer>();
 	static {
 		BOOLEAN_DISTANCE_MAP.put(Boolean.class, new Integer(1));
@@ -42,9 +33,7 @@ public class DefaultConverter implements Converter {
 		BOOLEAN_DISTANCE_MAP.put(Object.class, new Integer(2));
 	}
 
-	/**
-	 * Number distance map.
-	 */
+	/** Number distance map. */
 	private static final Map<Class<?>, Integer> NUMBER_DISTANCE_MAP = new HashMap<Class<?>, Integer>();
 	static {
 		NUMBER_DISTANCE_MAP.put(Byte.class, new Integer(1));
@@ -70,9 +59,7 @@ public class DefaultConverter implements Converter {
 		}
 	}
 
-	/**
-	 * String distance map.
-	 */
+	/** String distance map. */
 	private static final Map<Class<?>, Integer> STRING_DISTANCE_MAP = new HashMap<Class<?>, Integer>();
 	static {
 		STRING_DISTANCE_MAP.put(String.class, new Integer(1));
@@ -98,23 +85,19 @@ public class DefaultConverter implements Converter {
 		STRING_DISTANCE_MAP.put(Character.TYPE, new Integer(3));
 	}
 
-	/**
-	 * Function distance map.
-	 */
+	/** Function distance map. */
 	private static final Map<Class<?>, Integer> FUNCTION_DISTANCE_MAP = new HashMap<Class<?>, Integer>();
 	static {
 		FUNCTION_DISTANCE_MAP.put(JavaFunction.class, new Integer(1));
 		FUNCTION_DISTANCE_MAP.put(Object.class, new Integer(2));
 	}
 
-	/**
-	 * Lua value converters.
-	 */
+	/** Lua value converters. */
 	private static final Map<Class<?>, LuaValueConverter<?>> LUA_VALUE_CONVERTERS = new HashMap<Class<?>, LuaValueConverter<?>>();
 	static {
 		LuaValueConverter<Boolean> booleanConverter = new LuaValueConverter<Boolean>() {
 			@Override
-			public Boolean convert(LuaState luaState, int index) {
+			public Boolean convert (LuaState luaState, int index) {
 				return Boolean.valueOf(luaState.toBoolean(index));
 			}
 		};
@@ -123,23 +106,23 @@ public class DefaultConverter implements Converter {
 
 		LuaValueConverter<Byte> byteConverter = new LuaValueConverter<Byte>() {
 			@Override
-			public Byte convert(LuaState luaState, int index) {
-				return Byte.valueOf((byte) luaState.toInteger(index));
+			public Byte convert (LuaState luaState, int index) {
+				return Byte.valueOf((byte)luaState.toInteger(index));
 			}
 		};
 		LUA_VALUE_CONVERTERS.put(Byte.class, byteConverter);
 		LUA_VALUE_CONVERTERS.put(Byte.TYPE, byteConverter);
 		LuaValueConverter<Short> shortConverter = new LuaValueConverter<Short>() {
 			@Override
-			public Short convert(LuaState luaState, int index) {
-				return Short.valueOf((short) luaState.toInteger(index));
+			public Short convert (LuaState luaState, int index) {
+				return Short.valueOf((short)luaState.toInteger(index));
 			}
 		};
 		LUA_VALUE_CONVERTERS.put(Short.class, shortConverter);
 		LUA_VALUE_CONVERTERS.put(Short.TYPE, shortConverter);
 		LuaValueConverter<Integer> integerConverter = new LuaValueConverter<Integer>() {
 			@Override
-			public Integer convert(LuaState luaState, int index) {
+			public Integer convert (LuaState luaState, int index) {
 				return Integer.valueOf(luaState.toInteger(index));
 			}
 		};
@@ -147,23 +130,23 @@ public class DefaultConverter implements Converter {
 		LUA_VALUE_CONVERTERS.put(Integer.TYPE, integerConverter);
 		LuaValueConverter<Long> longConverter = new LuaValueConverter<Long>() {
 			@Override
-			public Long convert(LuaState luaState, int index) {
-				return Long.valueOf((long) luaState.toNumber(index));
+			public Long convert (LuaState luaState, int index) {
+				return Long.valueOf((long)luaState.toNumber(index));
 			}
 		};
 		LUA_VALUE_CONVERTERS.put(Long.class, longConverter);
 		LUA_VALUE_CONVERTERS.put(Long.TYPE, longConverter);
 		LuaValueConverter<Float> floatConverter = new LuaValueConverter<Float>() {
 			@Override
-			public Float convert(LuaState luaState, int index) {
-				return Float.valueOf((float) luaState.toNumber(index));
+			public Float convert (LuaState luaState, int index) {
+				return Float.valueOf((float)luaState.toNumber(index));
 			}
 		};
 		LUA_VALUE_CONVERTERS.put(Float.class, floatConverter);
 		LUA_VALUE_CONVERTERS.put(Float.TYPE, floatConverter);
 		LuaValueConverter<Double> doubleConverter = new LuaValueConverter<Double>() {
 			@Override
-			public Double convert(LuaState luaState, int index) {
+			public Double convert (LuaState luaState, int index) {
 				return Double.valueOf(luaState.toNumber(index));
 			}
 		};
@@ -171,30 +154,29 @@ public class DefaultConverter implements Converter {
 		LUA_VALUE_CONVERTERS.put(Double.TYPE, doubleConverter);
 		LuaValueConverter<BigInteger> bigIntegerConverter = new LuaValueConverter<BigInteger>() {
 			@Override
-			public BigInteger convert(LuaState luaState, int index) {
-				return BigDecimal.valueOf(luaState.toNumber(index))
-						.setScale(0, BigDecimal.ROUND_HALF_EVEN).toBigInteger();
+			public BigInteger convert (LuaState luaState, int index) {
+				return BigDecimal.valueOf(luaState.toNumber(index)).setScale(0, BigDecimal.ROUND_HALF_EVEN).toBigInteger();
 			}
 		};
 		LUA_VALUE_CONVERTERS.put(BigInteger.class, bigIntegerConverter);
 		LuaValueConverter<BigDecimal> bigDecimalConverter = new LuaValueConverter<BigDecimal>() {
 			@Override
-			public BigDecimal convert(LuaState luaState, int index) {
+			public BigDecimal convert (LuaState luaState, int index) {
 				return BigDecimal.valueOf(luaState.toNumber(index));
 			}
 		};
 		LUA_VALUE_CONVERTERS.put(BigDecimal.class, bigDecimalConverter);
 		LuaValueConverter<Character> characterConverter = new LuaValueConverter<Character>() {
 			@Override
-			public Character convert(LuaState luaState, int index) {
-				return Character.valueOf((char) luaState.toInteger(index));
+			public Character convert (LuaState luaState, int index) {
+				return Character.valueOf((char)luaState.toInteger(index));
 			}
 		};
 		LUA_VALUE_CONVERTERS.put(Character.class, characterConverter);
 		LUA_VALUE_CONVERTERS.put(Character.TYPE, characterConverter);
 		LuaValueConverter<String> stringConverter = new LuaValueConverter<String>() {
 			@Override
-			public String convert(LuaState luaState, int index) {
+			public String convert (LuaState luaState, int index) {
 				return luaState.toString(index);
 			}
 		};
@@ -202,7 +184,7 @@ public class DefaultConverter implements Converter {
 		if (!RAW_BYTE_ARRAY) {
 			LuaValueConverter<byte[]> byteArrayConverter = new LuaValueConverter<byte[]>() {
 				@Override
-				public byte[] convert(LuaState luaState, int index) {
+				public byte[] convert (LuaState luaState, int index) {
 					return luaState.toByteArray(index);
 				}
 			};
@@ -210,14 +192,12 @@ public class DefaultConverter implements Converter {
 		}
 	}
 
-	/**
-	 * Java object converters.
-	 */
+	/** Java object converters. */
 	private static final Map<Class<?>, JavaObjectConverter<?>> JAVA_OBJECT_CONVERTERS = new HashMap<Class<?>, JavaObjectConverter<?>>();
 	static {
 		JavaObjectConverter<Boolean> booleanConverter = new JavaObjectConverter<Boolean>() {
 			@Override
-			public void convert(LuaState luaState, Boolean booleanValue) {
+			public void convert (LuaState luaState, Boolean booleanValue) {
 				luaState.pushBoolean(booleanValue.booleanValue());
 			}
 		};
@@ -225,7 +205,7 @@ public class DefaultConverter implements Converter {
 		JAVA_OBJECT_CONVERTERS.put(Boolean.TYPE, booleanConverter);
 		JavaObjectConverter<Number> numberConverter = new JavaObjectConverter<Number>() {
 			@Override
-			public void convert(LuaState luaState, Number number) {
+			public void convert (LuaState luaState, Number number) {
 				luaState.pushNumber(number.doubleValue());
 			}
 		};
@@ -245,7 +225,7 @@ public class DefaultConverter implements Converter {
 		JAVA_OBJECT_CONVERTERS.put(BigDecimal.class, numberConverter);
 		JavaObjectConverter<Character> characterConverter = new JavaObjectConverter<Character>() {
 			@Override
-			public void convert(LuaState luaState, Character character) {
+			public void convert (LuaState luaState, Character character) {
 				luaState.pushInteger(character.charValue());
 			}
 		};
@@ -253,7 +233,7 @@ public class DefaultConverter implements Converter {
 		JAVA_OBJECT_CONVERTERS.put(Character.TYPE, characterConverter);
 		JavaObjectConverter<String> stringConverter = new JavaObjectConverter<String>() {
 			@Override
-			public void convert(LuaState luaState, String string) {
+			public void convert (LuaState luaState, String string) {
 				luaState.pushString(string);
 			}
 		};
@@ -261,7 +241,7 @@ public class DefaultConverter implements Converter {
 		if (!RAW_BYTE_ARRAY) {
 			JavaObjectConverter<byte[]> byteArrayConverter = new JavaObjectConverter<byte[]>() {
 				@Override
-				public void convert(LuaState luaState, byte[] byteArray) {
+				public void convert (LuaState luaState, byte[] byteArray) {
 					luaState.pushByteArray(byteArray);
 				}
 			};
@@ -270,25 +250,21 @@ public class DefaultConverter implements Converter {
 	}
 
 	// -- Static methods
-	/**
-	 * Returns the instance of this class.
+	/** Returns the instance of this class.
 	 * 
-	 * @return the instance
-	 */
-	public static DefaultConverter getInstance() {
+	 * @return the instance */
+	public static DefaultConverter getInstance () {
 		return INSTANCE;
 	}
 
 	// -- Construction
-	/**
-	 * Singleton.
-	 */
-	private DefaultConverter() {
+	/** Singleton. */
+	private DefaultConverter () {
 	}
 
 	// -- Java converter methods
 	@Override
-	public int getTypeDistance(LuaState luaState, int index, Class<?> formalType) {
+	public int getTypeDistance (LuaState luaState, int index, Class<?> formalType) {
 		// Handle none
 		LuaType luaType = luaState.type(index);
 		if (luaType == null) {
@@ -328,8 +304,7 @@ public class DefaultConverter implements Converter {
 			}
 			break;
 		case TABLE:
-			if (formalType == Map.class || formalType == List.class
-					|| formalType.isArray()) {
+			if (formalType == Map.class || formalType == List.class || formalType.isArray()) {
 				return 1;
 			}
 			if (formalType == Object.class) {
@@ -349,10 +324,9 @@ public class DefaultConverter implements Converter {
 			if (object != null) {
 				Class<?> type;
 				if (object instanceof TypedJavaObject) {
-					TypedJavaObject typedJavaObject = (TypedJavaObject) object;
+					TypedJavaObject typedJavaObject = (TypedJavaObject)object;
 					if (typedJavaObject.isStrong()) {
-						if (formalType.isAssignableFrom(typedJavaObject
-								.getClass())) {
+						if (formalType.isAssignableFrom(typedJavaObject.getClass())) {
 							return 1;
 						}
 					}
@@ -378,8 +352,7 @@ public class DefaultConverter implements Converter {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T> T convertLuaValue(LuaState luaState, int index,
-			Class<T> formalType) {
+	public <T> T convertLuaValue (LuaState luaState, int index, Class<T> formalType) {
 		// Handle none
 		LuaType luaType = luaState.type(index);
 		if (luaType == null) {
@@ -388,14 +361,13 @@ public class DefaultConverter implements Converter {
 
 		// Handle void
 		if (formalType == Void.TYPE) {
-			throw new ClassCastException(String.format(
-					"cannot convert %s to %s", luaState.typeName(index),
-					formalType.getCanonicalName()));
+			throw new ClassCastException(String.format("cannot convert %s to %s", luaState.typeName(index),
+				formalType.getCanonicalName()));
 		}
 
 		// Handle Lua value proxy
 		if (formalType == LuaValueProxy.class) {
-			return (T) luaState.getProxy(index);
+			return (T)luaState.getProxy(index);
 		}
 
 		// Handle Lua types
@@ -406,60 +378,60 @@ public class DefaultConverter implements Converter {
 			LuaValueConverter<?> luaValueConverter;
 			luaValueConverter = LUA_VALUE_CONVERTERS.get(formalType);
 			if (luaValueConverter != null) {
-				return (T) luaValueConverter.convert(luaState, index);
+				return (T)luaValueConverter.convert(luaState, index);
 			}
 			if (formalType == Object.class) {
-				return (T) Boolean.valueOf(luaState.toBoolean(index));
+				return (T)Boolean.valueOf(luaState.toBoolean(index));
 			}
 			break;
 		case NUMBER:
 			luaValueConverter = LUA_VALUE_CONVERTERS.get(formalType);
 			if (luaValueConverter != null) {
-				return (T) luaValueConverter.convert(luaState, index);
+				return (T)luaValueConverter.convert(luaState, index);
 			}
 			if (formalType == Object.class) {
-				return (T) Double.valueOf(luaState.toNumber(index));
+				return (T)Double.valueOf(luaState.toNumber(index));
 			}
 			break;
 		case STRING:
 			luaValueConverter = LUA_VALUE_CONVERTERS.get(formalType);
 			if (luaValueConverter != null) {
-				return (T) luaValueConverter.convert(luaState, index);
+				return (T)luaValueConverter.convert(luaState, index);
 			}
 			if (formalType == Object.class) {
-				return (T) luaState.toString(index);
+				return (T)luaState.toString(index);
 			}
 			break;
 		case TABLE:
 			if (formalType == Map.class || formalType == Object.class) {
 				final LuaValueProxy luaValueProxy = luaState.getProxy(index);
-				return (T) new AbstractTableMap<Object>() {
+				return (T)new AbstractTableMap<Object>() {
 					@Override
-					protected Object convertKey(int index) {
+					protected Object convertKey (int index) {
 						return getLuaState().toJavaObject(index, Object.class);
 					}
 
 					@Override
-					public LuaState getLuaState() {
+					public LuaState getLuaState () {
 						return luaValueProxy.getLuaState();
 					}
 
 					@Override
-					public void pushValue() {
+					public void pushValue () {
 						luaValueProxy.pushValue();
 					}
 				};
 			}
 			if (formalType == List.class) {
 				final LuaValueProxy luaValueProxy = luaState.getProxy(index);
-				return (T) new AbstractTableList() {
+				return (T)new AbstractTableList() {
 					@Override
-					public LuaState getLuaState() {
+					public LuaState getLuaState () {
 						return luaValueProxy.getLuaState();
 					}
 
 					@Override
-					public void pushValue() {
+					public void pushValue () {
 						luaValueProxy.pushValue();
 					}
 				};
@@ -467,25 +439,22 @@ public class DefaultConverter implements Converter {
 			if (formalType.isArray()) {
 				int length = luaState.rawLen(index);
 				Class<?> componentType = formalType.getComponentType();
-				Object array = Array.newInstance(formalType.getComponentType(),
-						length);
+				Object array = Array.newInstance(formalType.getComponentType(), length);
 				for (int i = 0; i < length; i++) {
 					luaState.rawGet(index, i + 1);
 					try {
-						Array.set(array, i,
-								convertLuaValue(luaState, -1, componentType));
+						Array.set(array, i, convertLuaValue(luaState, -1, componentType));
 					} finally {
 						luaState.pop(1);
 					}
 				}
-				return (T) array;
+				return (T)array;
 			}
 			break;
 		case FUNCTION:
 			if (luaState.isJavaFunction(index)) {
-				if (formalType == JavaFunction.class
-						|| formalType == Object.class) {
-					return (T) luaState.toJavaFunction(index);
+				if (formalType == JavaFunction.class || formalType == Object.class) {
+					return (T)luaState.toJavaFunction(index);
 				}
 			}
 			break;
@@ -493,16 +462,15 @@ public class DefaultConverter implements Converter {
 			Object object = luaState.toJavaObjectRaw(index);
 			if (object != null) {
 				if (object instanceof TypedJavaObject) {
-					TypedJavaObject typedJavaObject = (TypedJavaObject) object;
+					TypedJavaObject typedJavaObject = (TypedJavaObject)object;
 					if (typedJavaObject.isStrong()) {
-						if (formalType.isAssignableFrom(typedJavaObject
-								.getClass())) {
-							return (T) typedJavaObject;
+						if (formalType.isAssignableFrom(typedJavaObject.getClass())) {
+							return (T)typedJavaObject;
 						}
 					}
-					return (T) ((TypedJavaObject) object).getObject();
+					return (T)((TypedJavaObject)object).getObject();
 				} else {
-					return (T) object;
+					return (T)object;
 				}
 			}
 			break;
@@ -510,17 +478,17 @@ public class DefaultConverter implements Converter {
 
 		// Handle object
 		if (formalType == Object.class) {
-			return (T) luaState.getProxy(index);
+			return (T)luaState.getProxy(index);
 		}
 
 		// Unsupported conversion
-		throw new ClassCastException(String.format("cannot convert %s to %s",
-				luaState.typeName(index), formalType.getCanonicalName()));
+		throw new ClassCastException(String.format("cannot convert %s to %s", luaState.typeName(index),
+			formalType.getCanonicalName()));
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public void convertJavaObject(LuaState luaState, Object object) {
+	public void convertJavaObject (LuaState luaState, Object object) {
 		// Handle null
 		if (object == null) {
 			luaState.pushNil();
@@ -528,21 +496,20 @@ public class DefaultConverter implements Converter {
 		}
 
 		// Handle known Java types
-		JavaObjectConverter<Object> javaObjectConverter = (JavaObjectConverter<Object>) JAVA_OBJECT_CONVERTERS
-				.get(object.getClass());
+		JavaObjectConverter<Object> javaObjectConverter = (JavaObjectConverter<Object>)JAVA_OBJECT_CONVERTERS
+			.get(object.getClass());
 		if (javaObjectConverter != null) {
 			javaObjectConverter.convert(luaState, object);
 			return;
 		}
 		if (object instanceof JavaFunction) {
-			luaState.pushJavaFunction((JavaFunction) object);
+			luaState.pushJavaFunction((JavaFunction)object);
 			return;
 		}
 		if (object instanceof LuaValueProxy) {
-			LuaValueProxy luaValueProxy = (LuaValueProxy) object;
+			LuaValueProxy luaValueProxy = (LuaValueProxy)object;
 			if (!luaValueProxy.getLuaState().equals(luaState)) {
-				throw new IllegalArgumentException(
-						"Lua value proxy is from a different Lua state");
+				throw new IllegalArgumentException("Lua value proxy is from a different Lua state");
 			}
 			luaValueProxy.pushValue();
 			return;
@@ -553,23 +520,15 @@ public class DefaultConverter implements Converter {
 	}
 
 	// -- Nested types
-	/**
-	 * Converts Lua values.
-	 */
+	/** Converts Lua values. */
 	private interface LuaValueConverter<T> {
-		/**
-		 * Converts a Lua value to a Java object.
-		 */
-		public T convert(LuaState luaState, int index);
+		/** Converts a Lua value to a Java object. */
+		public T convert (LuaState luaState, int index);
 	}
 
-	/**
-	 * Converts Java object.
-	 */
+	/** Converts Java object. */
 	private interface JavaObjectConverter<T> {
-		/**
-		 * Converts a Java object to a Lua value.
-		 */
-		public void convert(LuaState luaState, T object);
+		/** Converts a Java object to a Lua value. */
+		public void convert (LuaState luaState, T object);
 	}
 }

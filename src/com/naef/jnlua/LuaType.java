@@ -5,64 +5,41 @@
 
 package com.naef.jnlua;
 
-/**
- * Represents a Lua type.
- */
+/** Represents a Lua type. */
 public enum LuaType {
 	// -- Values
-	/**
-	 * Nil.
-	 */
+	/** Nil. */
 	NIL,
 
-	/**
-	 * Boolean.
-	 */
+	/** Boolean. */
 	BOOLEAN,
 
-	/**
-	 * Light user data (pointer).
-	 */
+	/** Light user data (pointer). */
 	LIGHTUSERDATA,
 
-	/**
-	 * Number.
-	 */
+	/** Number. */
 	NUMBER,
 
-	/**
-	 * String.
-	 */
+	/** String. */
 	STRING,
 
-	/**
-	 * Table.
-	 */
+	/** Table. */
 	TABLE,
 
-	/**
-	 * Function.
-	 */
+	/** Function. */
 	FUNCTION,
 
-	/**
-	 * User data.
-	 */
+	/** User data. */
 	USERDATA,
 
-	/**
-	 * Thread.
-	 */
+	/** Thread. */
 	THREAD;
 
 	// -- Properties
-	/**
-	 * Returns the display text of this Lua type. The display text is the type
-	 * name in lower case.
+	/** Returns the display text of this Lua type. The display text is the type name in lower case.
 	 * 
-	 * @return the display text
-	 */
-	public String displayText() {
+	 * @return the display text */
+	public String displayText () {
 		return toString().toLowerCase();
 	}
 }

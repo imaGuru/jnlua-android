@@ -5,10 +5,7 @@
 
 package com.naef.jnlua;
 
-/**
- * Contains information about a Lua error condition. This object is created in
- * the native library.
- */
+/** Contains information about a Lua error condition. This object is created in the native library. */
 class LuaError {
 	// -- State
 	private String message;
@@ -16,39 +13,31 @@ class LuaError {
 	private Throwable cause;
 
 	// -- Construction
-	/**
-	 * Creates a new instance.
-	 */
-	public LuaError(String message, Throwable cause) {
+	/** Creates a new instance. */
+	public LuaError (String message, Throwable cause) {
 		this.message = message;
 		this.cause = cause;
 	}
 
 	// -- Properties
-	/**
-	 * Returns the message.
-	 */
-	public String getMessage() {
+	/** Returns the message. */
+	public String getMessage () {
 		return message;
 	}
 
-	/**
-	 * Returns the Lua stack trace.
-	 */
-	public LuaStackTraceElement[] getLuaStackTrace() {
+	/** Returns the Lua stack trace. */
+	public LuaStackTraceElement[] getLuaStackTrace () {
 		return luaStackTrace;
 	}
 
-	/**
-	 * Returns the cause.
-	 */
-	public Throwable getCause() {
+	/** Returns the cause. */
+	public Throwable getCause () {
 		return cause;
 	}
 
 	// -- Object methods
 	@Override
-	public String toString() {
+	public String toString () {
 		StringBuffer sb = new StringBuffer();
 		if (message != null) {
 			sb.append(message);
@@ -60,10 +49,8 @@ class LuaError {
 	}
 
 	// -- Package private methods
-	/**
-	 * Sets the Lua stack trace.
-	 */
-	void setLuaStackTrace(LuaStackTraceElement[] luaStackTrace) {
+	/** Sets the Lua stack trace. */
+	void setLuaStackTrace (LuaStackTraceElement[] luaStackTrace) {
 		this.luaStackTrace = luaStackTrace;
 	}
 }

@@ -11,27 +11,21 @@ import java.util.RandomAccess;
 import com.naef.jnlua.LuaState;
 import com.naef.jnlua.LuaValueProxy;
 
-/**
- * Abstract list implementation backed by a Lua table.
- */
-public abstract class AbstractTableList extends AbstractList<Object> implements
-		RandomAccess, LuaValueProxy {
+/** Abstract list implementation backed by a Lua table. */
+public abstract class AbstractTableList extends AbstractList<Object> implements RandomAccess, LuaValueProxy {
 	// -- Construction
-	/**
-	 * Creates a new instance.
-	 */
-	public AbstractTableList() {
+	/** Creates a new instance. */
+	public AbstractTableList () {
 	}
 
 	// -- List methods
 	@Override
-	public void add(int index, Object element) {
+	public void add (int index, Object element) {
 		LuaState luaState = getLuaState();
 		synchronized (luaState) {
 			int size = size();
 			if (index < 0 || index > size) {
-				throw new IndexOutOfBoundsException("index: " + index
-						+ ", size: " + size);
+				throw new IndexOutOfBoundsException("index: " + index + ", size: " + size);
 			}
 			pushValue();
 			luaState.tableMove(-1, index + 1, index + 2, size - index);
@@ -42,13 +36,12 @@ public abstract class AbstractTableList extends AbstractList<Object> implements
 	}
 
 	@Override
-	public Object get(int index) {
+	public Object get (int index) {
 		LuaState luaState = getLuaState();
 		synchronized (luaState) {
 			int size = size();
 			if (index < 0 || index >= size) {
-				throw new IndexOutOfBoundsException("index: " + index
-						+ ", size: " + size);
+				throw new IndexOutOfBoundsException("index: " + index + ", size: " + size);
 			}
 			pushValue();
 			luaState.rawGet(-1, index + 1);
@@ -61,13 +54,12 @@ public abstract class AbstractTableList extends AbstractList<Object> implements
 	}
 
 	@Override
-	public Object remove(int index) {
+	public Object remove (int index) {
 		LuaState luaState = getLuaState();
 		synchronized (luaState) {
 			int size = size();
 			if (index < 0 || index >= size) {
-				throw new IndexOutOfBoundsException("index: " + index
-						+ ", size: " + size);
+				throw new IndexOutOfBoundsException("index: " + index + ", size: " + size);
 			}
 			Object oldValue = get(index);
 			pushValue();
@@ -80,13 +72,12 @@ public abstract class AbstractTableList extends AbstractList<Object> implements
 	}
 
 	@Override
-	public Object set(int index, Object element) {
+	public Object set (int index, Object element) {
 		LuaState luaState = getLuaState();
 		synchronized (luaState) {
 			int size = size();
 			if (index < 0 || index >= size) {
-				throw new IndexOutOfBoundsException("index: " + index
-						+ ", size: " + size);
+				throw new IndexOutOfBoundsException("index: " + index + ", size: " + size);
 			}
 			Object oldValue = get(index);
 			pushValue();
@@ -98,7 +89,7 @@ public abstract class AbstractTableList extends AbstractList<Object> implements
 	}
 
 	@Override
-	public int size() {
+	public int size () {
 		LuaState luaState = getLuaState();
 		synchronized (luaState) {
 			pushValue();
